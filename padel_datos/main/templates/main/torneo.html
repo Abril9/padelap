@@ -1,0 +1,10 @@
+{% if lista_torneos %}
+
+<ul>    
+{% for torneo in lista_torneos  %}
+    <li> <a href="/main/{{torneo.nombre}}"> {{ torneo.inicio }} </a> </li>
+{% endfor %}
+</ul>
+{% else %}
+    <p> no hay torneos cargados </p> 
+{% endif %}
