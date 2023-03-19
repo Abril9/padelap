@@ -1,8 +1,26 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
+from itertools import chain
+from rest_framework import viewsets
 
-from .models import Torneo, Usuario
+
+from .models import Torneo, Usuario, Partido
+from .serializers import UsuarioSerializer, PartidoSerializer, TorneoSerializer
+
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all().order_by('id')
+    serializer_class = UsuarioSerializer
+
+class TorneoViewSet(viewsets.ModelViewSet):
+    queryset = Torneo.objects.all().order_by('id')
+    serializer_class = TorneoSerializer
+
+class PartidoViewSet(viewsets.ModelViewSet):
+    queryset = Partido.objects.all().order_by('id')
+    serializer_class = PartidoSerializer
+
 
 def usuarios_json(request):
     qs = Usuario.objects.all()
@@ -10,42 +28,30 @@ def usuarios_json(request):
     return HttpResponse(data, content_type='application/json', status=200)
 
 
-def crear_usuario(self, request):
-    print('llego al post')
-    
-    data = json.loads(request.body)
-
-    print(request.method)
-    print(data)
-    return HttpResponse('concha', content_type='application/json', status=200)
-
-def torneo(request):
-    lista_torneos = Torneo.objects.all()
-    
-    #return(mismorequest, path al html considerando que une todas las carpetas templates en una, contexto expresado como un dic de py)
-    return render(request,"main/torneo.html", {
-        "lista_torneos": lista_torneos
-    })
+def torneos_json(request):
+    qs = Torneo.objects.all()
+    data = serializers.serialize("json", qs)
+    return HttpResponse(data, content_type='application/json', status=200)
 
 
+def partidos_json(request):
+    qs = Partido.objects.all()
+    data = serializers.serialize("json", qs)
+    return HttpResponse(data, content_type='application/json', status=200)
 
+def torneo_partidos_json(request, id):
+    torneo_qs = Torneo.objects.filter(id = id)
+    partidos_qs =  Partido.objects.filter(torneo = id)
+    combined = list(chain(torneo_qs,partidos_qs))
+    data = serializers.serialize("json",combined, use_natural_foreign_keys=True)
 
+    return HttpResponse(data,content_type='application/json', status=200)
 
-
-
-
+#TODO USAR LAS LISTVIEWS EN LUGAR DE ESTO....
 
 
 def bienvenido(request):
     return HttpResponse('<h1> Bienvenido a padel app </h1>')
 
-def crear_usuario(request):
-    
-    data = request.data
-    usuario = Usuario.objects.create( nombre =  data.nombre, apellido = 'apellido?', email = data.email,
-                                                wsp = data.wsp, username = data.username, password = data.password)
-    usuario.save()
 
-def obtener_usuario(username):
-    usuario = Usuario.objects.filter(username = username)
-    return usuario
+        

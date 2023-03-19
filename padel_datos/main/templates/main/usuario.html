@@ -1,0 +1,14 @@
+{% block content %}
+
+<form method="post">
+
+
+    {% csrf_token %}
+
+    {{forms.as_p}}
+
+    <button type="submit"> Post! </button>
+
+</form>
+
+{% endblock %}
