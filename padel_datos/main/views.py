@@ -1,11 +1,13 @@
+import json
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from itertools import chain
 from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import Torneo, Usuario, Partido
+from .models import Jugador, Resultado, Torneo, Usuario, Partido
 from .serializers import UsuarioSerializer, PartidoSerializer, TorneoSerializer
 
 
@@ -47,7 +49,37 @@ def torneo_partidos_json(request, id):
 
     return HttpResponse(data,content_type='application/json', status=200)
 
+
+def login(request,username,password):
+    usuario = Usuario.objects.get(username = username)
+    _status = 400 
+    if(usuario.password == password):         
+         data = serializers.serialize('json', [ usuario, ])
+         _status = 200
+    else: 
+        data = json.dumps("error")
+     
+    return  HttpResponse(data,content_type='application/json', status = _status)
+
 #TODO USAR LAS LISTVIEWS EN LUGAR DE ESTO....
+
+@csrf_exempt
+def inscribir_jugador_partido(request):
+    #params = request.params 
+    
+    body_unicode = request.body.decode('utf-8')
+    body_data = json.loads(body_unicode)
+    jugador_id = body_data.get('id_jugador')
+    partido_id = body_data.get('id_partido')
+
+    resultado = Resultado.objects.create(puntos = -1)
+    resultado.jugadores.set([Jugador.objects.get(pk=jugador_id)])
+    resultado.partido = Partido.objects.get(pk=partido_id)
+    print(resultado)
+    resultado.save()
+    
+    return HttpResponse(status=200)
+
 
 
 def bienvenido(request):

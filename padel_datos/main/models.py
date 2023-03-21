@@ -23,7 +23,7 @@ class Usuario(models.Model):
         return f'{self.id}/usuario'
 
     def __str__(self):
-        return 'Usuario %s - %s' % (self.username, self.email)
+        return 'Usuario %s - %s' % (self.username, self.password)
 
 
 
@@ -36,7 +36,7 @@ class Jugador(models.Model):
     # avatar = models.ImageField(upload_to='/files_source')
     # genero = models.TextChoices(Genero)
     edad = models.IntegerField()
-    passwordcudad = models.CharField(max_length=250, null = False)
+    
     
     class Meta:
         verbose_name = "Jugador"
@@ -97,7 +97,7 @@ class Partido(models.Model):
 
 
 class Resultado(models.Model):
-    jugadores = models.ManyToManyField(Jugador, max_length=2)
-    puntos = models.IntegerField()
+    jugadores = models.ManyToManyField(Jugador, max_length=2, null=True)
+    puntos = models.IntegerField(null = True)
     partido = models.ForeignKey(Partido, on_delete=models.PROTECT, max_length=2, null= True)
     #TODO cargar resultado - level 2

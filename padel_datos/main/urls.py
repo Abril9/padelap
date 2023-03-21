@@ -1,6 +1,6 @@
 from django.urls import path
 from django.conf.urls import url, include
-from .views import bienvenido,usuarios_json, torneos_json, partidos_json, torneo_partidos_json
+from .views import bienvenido,usuarios_json, torneos_json, partidos_json, torneo_partidos_json, inscribir_jugador_partido, login
 from .views import UsuarioViewSet,TorneoViewSet, PartidoViewSet
 from rest_framework import routers
 
@@ -19,6 +19,13 @@ urlpatterns = [
     
     # devuelve el torneo y los partidos que tiene asociados 
     path('torneo_partidos/<int:id>', torneo_partidos_json, name='partidos_json'), 
+    
+    path('login/<str:username>/<str:password>', login, name='login'), 
+    
+
+    path('inscribir_jugador_partido/', inscribir_jugador_partido, name='inscribir_jugador_partido'), 
+
+
     url(r'^', include(router.urls)),
     url(r'^/registrar/', include('rest_framework.urls', namespace= 'rest_framework')),
     url(r'^/nuevo_torneo/', include('rest_framework.urls', namespace= 'rest_framework')),
