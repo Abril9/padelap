@@ -10,7 +10,9 @@ django = "==3.2.8"
 pymysql = "*"
 rest-framework = "*"
 restframework = "*"
-djangorestframework = "*"
+djangorestframework = "==3.14.0"
+django-postgres-extensions = "*"
+django-jsonfield-backport = "*"
 
 [requires]
 python_version = "3.8"

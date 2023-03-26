@@ -1,0 +1,50 @@
+nombre tu torneo
+torneo tiene una  cde ciudad de cede y periodo de inscripcion
+cupo mazimo de inscripcion
+categoria le pertenece al partido
+
+
+luego de cerrado el proceso de inscripcion se consiguen y publican las cede
+con sorteo
+-----------------------------------------------------------------------------------------
+el organizador decide cuantos puntos se entregan por instancia para el ganadr y para el perdedor
+
+-----------------------------------------------------------------------------------------
+ranking queda por tonrneo por puntos por fechas
+
+
+los puntos quedan sumados al jugador para esa categoria
+
+
+torneos tienen una categoria llamada suma, representa que entre los dos
+jugadores tienen que llegar?? a esa categoria. Los puntos que se ganen
+de estos partidos no van al ranking
+
+ranking femenino masculino y mixto
+
+
+la categoria mas alta es la primera
+los torneos masculinos son en realidad torneos libres, puede anotarse cualquiera
+
+ranking 
+	torneo
+		categoria
+carga de resultados - puntos
+
+las categorias son por puntos, 
+
+armar esquema para el torneo por ca
+
+torneo libre
+basandome en cuantos se inscriban armo los partidos 
+por cateogias 
+
+
+
+------------------------------- PROTOTIPO 2
+torneo de menores con edad maxima
+torneo de mayores con edad minima
+categoria suma
+calculo automatico de los cruces ranking a partir de los resultados cargados  
+		
+		

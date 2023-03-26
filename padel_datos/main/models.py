@@ -1,4 +1,5 @@
-from django.db import models
+from django.db import models 
+from django_jsonfield_backport.models import JSONField
 
 from .utils import Categoria, Genero
 
@@ -8,6 +9,11 @@ class Usuario(models.Model):
     email = models.EmailField(max_length=250, null=False, unique = True)
     wsp = models.CharField(max_length=250, null=False)
     username = models.CharField(max_length=100, null=False, unique = True)
+    
+    categoria = models.IntegerField(default=-1)
+    #avatar = models.ImageField(upload_to='/files_source', null=True)
+    genero = models.IntegerField(null=True)
+    edad = models.IntegerField(null = True)
     
     
     password = models.CharField(max_length=20, null=False)
@@ -25,18 +31,22 @@ class Usuario(models.Model):
     def __str__(self):
         return 'Usuario %s - %s' % (self.username, self.password)
 
-
-
-
 class Jugador(models.Model):
-    usr = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True)
-   
-    #TODO cambiar - level2
-    # categoria = models.TextChoices(Categoria),
-    # avatar = models.ImageField(upload_to='/files_source')
-    # genero = models.TextChoices(Genero)
-    edad = models.IntegerField()
+    #usr = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True)
+
+
+    nombre = models.CharField(max_length=250, null=False)
+    apellido = models.CharField(max_length=250, null=False)
+    email = models.EmailField(max_length=250, null=False, unique = True)
+    wsp = models.CharField(max_length=250, null=False)
+    username = models.CharField(max_length=100, null=False, unique = True)
     
+    password = models.CharField(max_length=20, null=False)
+    #TODO cambiar - level2.. aplicar bien estoy en eso
+    categoria = models.IntegerField(choices=Categoria.choices(), null=True),
+    #avatar = models.ImageField(upload_to='/files_source', null=True)
+    genero = models.IntegerField(choices=Genero.choices(), null=True)
+    edad = models.IntegerField()
     
     class Meta:
         verbose_name = "Jugador"
@@ -71,9 +81,8 @@ class Torneo(models.Model):
     ciudad = models.CharField(max_length=200) 
     cupo_maximo_inscripcion = models.IntegerField(null=True)
     puntos = models.IntegerField()
+    categorias = JSONField(default={ 'cat' : [-1]})
 
-    def get_categoria(self):
-        return Categoria(self.type).name.title()
 
 
 '''
@@ -97,7 +106,7 @@ class Partido(models.Model):
 
 
 class Resultado(models.Model):
-    jugadores = models.ManyToManyField(Jugador, max_length=2, null=True)
+    jugadores = models.ManyToManyField(Usuario, max_length=2)
     puntos = models.IntegerField(null = True)
     partido = models.ForeignKey(Partido, on_delete=models.PROTECT, max_length=2, null= True)
     #TODO cargar resultado - level 2

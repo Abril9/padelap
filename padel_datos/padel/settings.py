@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main',
     'corsheaders',
     'rest_framework',
+    'django_jsonfield_backport'
 ]
 
 
@@ -94,7 +95,7 @@ WSGI_APPLICATION = 'padel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'padel_db',
+        'NAME': 'padel_db2',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

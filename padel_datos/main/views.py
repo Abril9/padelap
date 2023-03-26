@@ -8,12 +8,17 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 from .models import Jugador, Resultado, Torneo, Usuario, Partido
-from .serializers import UsuarioSerializer, PartidoSerializer, TorneoSerializer
+from .serializers import UsuarioSerializer, PartidoSerializer, TorneoSerializer, JugadorSerializer
 
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all().order_by('id')
     serializer_class = UsuarioSerializer
+
+class JugadorViewSet(viewsets.ModelViewSet):
+    queryset = Jugador.objects.all().order_by('id')
+    serializer_class = JugadorSerializer
+
 
 class TorneoViewSet(viewsets.ModelViewSet):
     queryset = Torneo.objects.all().order_by('id')
@@ -49,6 +54,10 @@ def torneo_partidos_json(request, id):
 
     return HttpResponse(data,content_type='application/json', status=200)
 
+def id_usuario_x_username(request, username):
+    usr = Usuario.objects.get(username = username)
+    return HttpResponse(usr.id, content_type='application/json', status=200)
+
 
 def login(request,username,password):
     usuario = Usuario.objects.get(username = username)
@@ -65,21 +74,57 @@ def login(request,username,password):
 
 @csrf_exempt
 def inscribir_jugador_partido(request):
-    #params = request.params 
     
     body_unicode = request.body.decode('utf-8')
     body_data = json.loads(body_unicode)
+
     jugador_id = body_data.get('id_jugador')
     partido_id = body_data.get('id_partido')
 
+    print('jugador:', jugador_id ,' partido:', partido_id)
     resultado = Resultado.objects.create(puntos = -1)
-    resultado.jugadores.set([Jugador.objects.get(pk=jugador_id)])
+    jugador = Usuario.objects.get(pk=jugador_id)
+    print(jugador)
+    resultado.jugadores.set([ jugador])
     resultado.partido = Partido.objects.get(pk=partido_id)
     print(resultado)
     resultado.save()
     
     return HttpResponse(status=200)
 
+@csrf_exempt
+def act_categoria(request):
+
+    #Actualiza la categoria de un jugador
+    
+    body_unicode = request.body.decode('utf-8')
+    body_data = json.loads(body_unicode)
+
+    jugador_id = body_data.get('id_jugador')
+    nueva_categoria = body_data.get('nueva_categoria')
+    jugador = Usuario.objects.get(pk=jugador_id)
+    
+    print('jugador:', jugador_id ,' nueva_categoria:', nueva_categoria)
+    jugador.categoria = nueva_categoria
+    print(jugador)
+
+    jugador.save()
+
+    data = json.dumps(nueva_categoria)
+    return HttpResponse(data,content_type='application/json', status=200)
+
+def resultados_usuario(request, id):
+    resultado_qs = Resultado.objects.filter(jugadores = id)
+    data = serializers.serialize("json", resultado_qs)
+
+    return HttpResponse(data,content_type='application/json', status=200)
+
+def torneos_organiza_usuario(request, id):
+    _organizador = Usuario.objects.get(id = id)
+    torneos_qs = Torneo.objects.filter(organizador = _organizador)
+    data =  serializers.serialize("json", torneos_qs)
+
+    return HttpResponse(data,content_type='application/json', status=200)
 
 
 def bienvenido(request):
