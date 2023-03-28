@@ -26,7 +26,8 @@ urlpatterns = [
     path('torneo_partidos/<int:id>', torneo_partidos_json, name='partidos_json'), 
     
     # devuelve todos los partidos del jugador con el id que mandaron
-    path('partidos_usuario/<int:id>', resultados_usuario, name='partidos_usuario'), 
+    path('resultados_usuario/<int:id>', resultados_usuario, name='partidos_usuario'), 
+    path('partidos_id/<int:id>', partidos_id, name='partidos_id'), 
 
     path('torneos_organiza_usuario/<int:id>', torneos_organiza_usuario, name='torneos_organiza_usuario'), 
     path('id_usuario_x_username/<str:username>', id_usuario_x_username, name='id_usuario_x_username'), 

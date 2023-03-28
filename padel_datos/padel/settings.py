@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-3l_n$yke*$l-6dd*v@3%pyj88^kj$3a3v3j9fo-i#+ag$w^vg7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tutorneo-app.web.app']
 
 
 # Application definition

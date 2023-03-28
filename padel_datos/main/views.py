@@ -119,6 +119,12 @@ def resultados_usuario(request, id):
 
     return HttpResponse(data,content_type='application/json', status=200)
 
+def partidos_id(request, id):
+    resultado_qs = Partido.objects.filter(id = id)
+    data = serializers.serialize("json", resultado_qs)
+
+    return HttpResponse(data,content_type='application/json', status=200)
+
 def torneos_organiza_usuario(request, id):
     _organizador = Usuario.objects.get(id = id)
     torneos_qs = Torneo.objects.filter(organizador = _organizador)
