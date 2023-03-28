@@ -1,0 +1,23 @@
+Prototipo 2 _____________________________________________________
+
+-subir django a la web
+-conectar a una base de datos online 
+-avatar en los perfiles: mostrar las alternativas app component html
+-torneo de menores con edad maxim y torneo de mayores con edad minima
+-categoria suma
+-calculo automatico de los cruces ranking a partir de los resultados cargados  
+-ranking con suma de puntos: por torneos por partidos ganados?  
+-numero de cancha? cedes?
+-mover inscripcion a torneos, los jugadores se inscriben al torneo
+-usuario administrador
+
+-como te gustaria que se relacionen dos jugadores que son pareja o como te imaginás
+-me gusto lo de que se vean los partidos y todo de entrada... no con login
+-canva 
+
+
+validaciones: 
+	- cantidad de inscriptos a un torneo 
+	- edad 
+	- fechas de torneos partidos: dentro de los periodos indicados
+	- que solo edite o agregue partidos el organizador del torneo
